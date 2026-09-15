@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#070a12" />
+<meta name="description" content="এআই মেন্টর — BCS Verse। ৫১তম বিসিএস প্রস্তুতির জন্য Gemini-চালিত ব্যক্তিগত মেন্টর।" />
+<title>এআই মেন্টর — BCS Verse</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+</head>
+<body data-page="ai" class="page-ai">
+
+<div class="aurora" aria-hidden="true">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="appbar" id="appbar">
+  <div class="appbar-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">📚</span>
+      <span class="brand-text"><strong>BCS <em>Verse</em></strong><small>৫১তম বিসিএস নেটওয়ার্ক</small></span>
+    </a>
+    <nav class="mainnav" id="mainnav">
+      <a class="mainnav-link" href="index.html"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/></svg><span>হোম</span></a>
+      <a class="mainnav-link" href="live.html"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4"/></svg><span>লাইভ স্টাডি</span><span class="nav-dot" data-live-dot></span></a>
+      <a class="mainnav-link is-active" href="ai.html"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg><span>এআই মেন্টর</span></a>
+      <a class="mainnav-link" href="profile.html"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>প্রোফাইল</span></a>
+    </nav>
+    <div class="appbar-actions">
+      <span class="chip chip-green" id="aiStatusChip">যাচাই হচ্ছে…</span>
+      <button class="icon-btn" data-action="open-ai-settings" title="API Key সেটিংস"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2.5 12h2M19.5 12h2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5"/></svg></button>
+      <a class="avatar-btn" href="profile.html" id="headerAvatar">🎯</a>
+      <button class="burger" id="burger" aria-label="মেনু"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT: conversation list -->
+  <aside class="leftrail chat-left">
+    <button class="btn btn-grad btn-block" id="newChatBtn">＋ নতুন চ্যাট</button>
+    <div class="chat-history-label">সাম্প্রতিক</div>
+    <div class="chat-history" id="chatHistory"></div>
+    <div class="side-foot"><span>ইতিহাস ব্রাউজারে সংরক্ষিত</span></div>
+  </aside>
+
+  <!-- CENTER: chat -->
+  <main class="col-main chat-main">
+    <div class="chat-head">
+      <div class="chat-head-info">
+        <div class="chat-avatar">✨</div>
+        <div>
+          <div class="chat-title">এআই মেন্টর</div>
+          <div class="chat-sub"><span class="dot-green"></span> <span id="modelBadge">gemini-3.6-flash</span> • Interactions API</div>
+        </div>
+      </div>
+      <div class="row gap">
+        <select id="modelSelect" class="input input-sm"></select>
+        <button class="btn btn-ghost sm" id="clearChatBtn">পরিষ্কার</button>
+      </div>
+    </div>
+
+    <div class="chat-scroll" id="chatScroll">
+      <div class="chat-empty" id="chatEmpty">
+        <div class="chat-empty-icon">🎓</div>
+        <h2>আপনার ৫১তম বিসিএস মেন্টর</h2>
+        <p class="muted">প্রিলি, লিখিত, ম্যাথ, কারেন্ট অ্যাফেয়ার্স — যেকোনো কিছু জিজ্ঞাসা করুন। অথবা নিচের প্রিসেট বেছে নিন।</p>
+        <div class="preset-grid" id="presetGrid"></div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+    </div>
+
+    <form class="chat-composer" id="chatForm">
+      <textarea id="chatInput" class="input textarea chat-input" rows="1" placeholder="আপনার প্রশ্ন লিখুন… (Shift+Enter = নতুন লাইন)"></textarea>
+      <button class="btn btn-grad chat-send" type="submit" id="sendBtn" aria-label="পাঠান">
+        <svg viewBox="0 0 24 24" class="ic"><path d="M4 12l16-8-6 8 6 8-16-8z"/></svg>
+      </button>
+    </form>
+  </main>
+
+  <!-- RIGHT: tools -->
+  <aside class="rightrail">
+    <section class="card widget">
+      <h3 class="w-title">🎯 কুইক অ্যাকশন</h3>
+      <button class="btn btn-ghost btn-block mb-8" data-preset="mcq">৫টি মডেল MCQ তৈরি করুন</button>
+      <button class="btn btn-ghost btn-block mb-8" data-preset="explain">একটি টপিক সহজে ব্যাখ্যা</button>
+      <button class="btn btn-ghost btn-block mb-8" data-preset="plan">৭ দিনের স্টাডি প্ল্যান</button>
+      <button class="btn btn-ghost btn-block" data-preset="written">লিখিত উত্তর আউটলাইন</button>
+    </section>
+
+    <section class="card widget">
+      <h3 class="w-title">📖 বিষয় ফোকাস</h3>
+      <div class="topic-chips" id="aiSubjectChips"></div>
+    </section>
+
+    <section class="card widget">
+      <h3 class="w-title">🔑 API স্ট্যাটাস</h3>
+      <p class="muted sm">Gemini API key ছাড়া এআই উত্তর দেবে না, কিন্তু বাকি সাইট কাজ করবে।</p>
+      <input id="apiKeyInput" class="input" type="password" placeholder="AIza…" autocomplete="off" />
+      <div class="row gap mt-8">
+        <button class="btn btn-grad sm" id="saveKeyBtn">সেভ</button>
+        <button class="btn btn-ghost sm" id="verifyKeyBtn">🔍 যাচাই</button>
+      </div>
+      <p class="muted xs mt-8" id="keyStatus">Key সেট করা হয়নি</p>
+    </section>
+
+    <section class="card widget">
+      <h3 class="w-title">💡 প্রম্পট টিপস</h3>
+      <ul class="tips">
+        <li>নির্দিষ্ট বিষয় ও সাল উল্লেখ করুন</li>
+        <li>"৫টি অপশনসহ MCQ" লিখলে ভালো ফরম্যাট পাবেন</li>
+        <li>উত্তর শেষে "ব্যাখ্যা দাও" যোগ করুন</li>
+      </ul>
+    </section>
+  </aside>
+</div>
+
+<nav class="tabbar">
+  <a class="tab-item" href="index.html"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/></svg><span>হোম</span></a>
+  <a class="tab-item" href="live.html"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4"/></svg><span>লাইভ</span></a>
+  <button class="tab-item tab-fab" id="tabFabNew" aria-label="নতুন চ্যাট"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+  <a class="tab-item is-active" href="ai.html"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg><span>এআই</span></a>
+  <a class="tab-item" href="profile.html"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>প্রোফাইল</span></a>
+</nav>
+
+<div class="modal-root" id="modalRoot" aria-hidden="true"></div>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

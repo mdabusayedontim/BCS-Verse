@@ -1,172 +1,140 @@
-/* ============================================================
-   BCS Verse — Configuration & shared constants
-   API: Google Gemini Interactions API (v1beta)
-   Model: gemini-3.6-flash
-   ============================================================ */
-(function () {
-  'use strict';
+/* =========================================================
+   BCS Verse — Configuration
+   ========================================================= */
+window.BCS = window.BCS || {};
 
-  const BCS = (window.BCS = window.BCS || {});
+BCS.VERSION = '3.0.0';
+BCS.STORAGE_KEY = 'bcsverse.v3';
 
-  BCS.CONFIG = {
-    APP_NAME: 'BCS Verse',
-    STORAGE_PREFIX: 'bcsverse.',
-    CHANNEL: 'bcsverse-sync',
+/* ---------- Gemini ---------- */
+BCS.GEMINI_INTERACTIONS_URL =
+  'https://generativelanguage.googleapis.com/v1beta/interactions';
 
-    /* ---------------------------------------------------------
-       Gemini — Interactions API
-       Endpoint:  POST https://generativelanguage.googleapis.com/v1beta/interactions
-       Auth:      header  x-goog-api-key: <KEY>
-       Body:      { model, input }
-       Response:  { steps: [ { type: "model_output", content: [ { text } ] } ] }
-       --------------------------------------------------------- */
-    GEMINI_INTERACTIONS_URL:
-      'https://generativelanguage.googleapis.com/v1beta/interactions',
+/* Default key intentionally empty — user supplies their own. */
+BCS.GEMINI_DEFAULT_KEY = '';
 
-    GEMINI_DEFAULT_MODEL: 'gemini-3.6-flash',
+BCS.GEMINI_MODELS = [
+  { id: 'gemini-3.6-flash',      name: 'Gemini 3.6 Flash',      note: 'দ্রুত + স্মার্ট (ডিফল্ট)' },
+  { id: 'gemini-3.6-flash-lite', name: 'Gemini 3.6 Flash Lite', note: 'সবচেয়ে দ্রুত' },
+  { id: 'gemini-3.6-pro',        name: 'Gemini 3.6 Pro',        note: 'সবচেয়ে স্মার্ট' },
+  { id: 'gemini-3.5-flash',      name: 'Gemini 3.5 Flash',      note: 'স্থিতিশীল' },
+  { id: 'gemini-3.0-flash',      name: 'Gemini 3.0 Flash',      note: 'লিগ্যাসি' }
+];
 
-    /* Models available in Settings dropdown.
-       "gemini-3.6-flash" is recommended by Google for best quality/speed. */
-    GEMINI_MODELS: [
-      'gemini-3.6-flash',
-      'gemini-3.6-flash-lite',
-      'gemini-3.6-pro',
-      'gemini-3.5-flash',
-      'gemini-3.0-flash'
-    ],
+/* ---------- Subjects ---------- */
+BCS.SUBJECTS = [
+  { id: 'bangla',     name: 'বাংলা ভাষা ও সাহিত্য',   icon: '📖', color: '#f59e0b' },
+  { id: 'english',    name: 'ইংরেজি ভাষা ও সাহিত্য',   icon: '🔤', color: '#3b82f6' },
+  { id: 'math',       name: 'গাণিতিক যুক্তি',          icon: '➗', color: '#8b5cf6' },
+  { id: 'gk-bd',      name: 'বাংলাদেশ বিষয়াবলি',      icon: '🇧🇩', color: '#10b981' },
+  { id: 'gk-intl',    name: 'আন্তর্জাতিক বিষয়াবলি',   icon: '🌍', color: '#06b6d4' },
+  { id: 'science',    name: 'সাধারণ বিজ্ঞান',          icon: '🔬', color: '#ec4899' },
+  { id: 'ict',        name: 'কম্পিউটার ও তথ্যপ্রযুক্তি', icon: '💻', color: '#6366f1' },
+  { id: 'geography',  name: 'ভূগোল ও পরিবেশ',          icon: '🗺️', color: '#84cc16' },
+  { id: 'mental',     name: 'মানসিক দক্ষতা',           icon: '🧠', color: '#f43f5e' },
+  { id: 'ethics',     name: 'নৈতিকতা ও সুশাসন',        icon: '⚖️', color: '#a855f7' }
+];
 
-    /* Pre-filled key placeholder.
-       ⚠️ Replace with your own key from https://aistudio.google.com/apikey
-       (Format: AIza…)  Leave empty to force users to add their own key. */
-    GEMINI_DEFAULT_KEY: '',
+BCS.subjectById = function (id) {
+  return BCS.SUBJECTS.find(s => s.id === id) || BCS.SUBJECTS[0];
+};
 
-    /* Persona injected into every Interactions request. */
-    SYSTEM_PROMPT:
-      'তুমি "BCS Verse" এর একজন অভিজ্ঞ বিসিএস মেন্টর। তুমি বাংলাদেশ সিভিল সার্ভিস (BCS) পরীক্ষার প্রস্তুতি নেওয়া পরীক্ষার্থীদের সাহায্য করো। ' +
-      'সব উত্তর বাংলায় দাও, সংক্ষিপ্ত কিন্তু তথ্যসমৃদ্ধ। গুরুত্বপূর্ণ পয়েন্ট বুলেট আকারে সাজাও। ' +
-      'প্রিলিমিনারি ও লিখিত — উভয় পরীক্ষার প্রাসঙ্গিকতা মাথায় রাখো। ' +
-      'যদি কোনো তথ্য নিশ্চিত না হও, সেটি স্পষ্টভাবে বলো।',
+/* ---------- System prompt ---------- */
+BCS.SYSTEM_PROMPT = `তুমি "BCS Verse AI Mentor" — ৫১তম বিসিএস (বাংলাদেশ সিভিল সার্ভিস) প্রস্তুতির একজন অভিজ্ঞ শিক্ষক ও মেন্টর।
 
-    MAX_POST_LEN: 1000,
-    MINUTES_PER_RING: 60,
-    MAX_COMMENT_LEN: 400
-  };
+নিয়মাবলি:
+- সবসময় সহজ, প্রাঞ্জল বাংলায় উত্তর দাও। প্রয়োজনে ইংরেজি টার্ম ব্যবহার করো।
+- উত্তরের শুরুতে সরাসরি মূল পয়েন্ট দাও, তারপর ব্যাখ্যা।
+- MCQ চাইলে অবশ্যই ৪টি অপশন (ক, খ, গ, ঘ) দাও এবং শেষে সঠিক উত্তর + সংক্ষিপ্ত ব্যাখ্যা।
+- তারিখ, সাল, সংখ্যা নিয়ে নিশ্চিত না হলে স্পষ্টভাবে বলো "যাচাই করে নিন"।
+- উত্তরের শেষে ২-৩টি দ্রুত রিভিশন পয়েন্ট যোগ করো।
+- শিক্ষার্থীকে উৎসাহ দাও, কিন্তু অতিরিক্ত ভূমিকা রচনা করো না।`;
 
-  /* ---------- BCS Subjects ---------- */
-  BCS.SUBJECTS = [
-    { id: 'bd',      name: 'বাংলাদেশ বিষয়াবলী',              emoji: '🇧🇩', hue: 152 },
-    { id: 'intl',    name: 'আন্তর্জাতিক বিষয়াবলী',           emoji: '🌍', hue: 205 },
-    { id: 'eng',     name: 'ইংরেজি সাহিত্য ও ব্যাকরণ',        emoji: '📘', hue: 265 },
-    { id: 'bangla',  name: 'বাংলা ভাষা ও সাহিত্য',            emoji: '📖', hue: 330 },
-    { id: 'sci',     name: 'সাধারণ বিজ্ঞান ও তথ্যপ্রযুক্তি',  emoji: '🔬', hue: 190 },
-    { id: 'math',    name: 'গাণিতিক যুক্তি ও মানসিক দক্ষতা',  emoji: '🧮', hue: 25  },
-    { id: 'geo',     name: 'ভূগোল, পরিবেশ ও দুর্যোগ',         emoji: '🗺️', hue: 105 },
-    { id: 'ethics',  name: 'নৈতিকতা ও সুশাসন',                emoji: '⚖️', hue: 45  }
-  ];
+/* ---------- Quick prompts / presets ---------- */
+BCS.PRESETS = [
+  { id: 'mcq',    icon: '🎯', title: '৫টি মডেল MCQ',        sub: 'যেকোনো বিষয়ে ৫টি প্রশ্ন, অপশন ও ব্যাখ্যাসহ', prompt: '৫১তম বিসিএস প্রিলি উপযোগী ৫টি MCQ তৈরি করুন। প্রতিটিতে ৪টি অপশন, সঠিক উত্তর এবং সংক্ষিপ্ত ব্যাখ্যা থাকবে।' },
+  { id: 'explain',icon: '💡', title: 'টপিক সহজে বুঝুন',      sub: 'কঠিন টপিক ধাপে ধাপে সহজ ব্যাখ্যা', prompt: 'নিচের টপিকটি একেবারে সহজ বাংলায়, উদাহরণসহ ধাপে ধাপে ব্যাখ্যা করুন: ' },
+  { id: 'plan',   icon: '📅', title: '৭ দিনের স্টাডি প্ল্যান', sub: 'আপনার সময় অনুযায়ী কাস্টম রুটিন', prompt: 'আমার জন্য ৭ দিনের একটি কার্যকর বিসিএস স্টাডি প্ল্যান তৈরি করুন। প্রতিদিন কোন বিষয়, কত সময় এবং কী রিভিশন করব তা সারণি আকারে দিন।' },
+  { id: 'written',icon: '✍️', title: 'লিখিত উত্তর আউটলাইন',  sub: 'লিখিত পরীক্ষার জন্য কাঠামোবদ্ধ রূপরেখা', prompt: '৫১তম বিসিএস লিখিত পরীক্ষার জন্য নিচের বিষয়ে একটি কাঠামোবদ্ধ উত্তর আউটলাইন তৈরি করুন (ভূমিকা, মূল অংশ, উপসংহার): ' },
+  { id: 'current',icon: '📰', title: 'কারেন্ট অ্যাফেয়ার্স',   sub: 'সাম্প্রতিক ঘটনাবলির সংক্ষিপ্ত রিভিশন', prompt: 'বিগত ৬ মাসের গুরুত্বপূর্ণ জাতীয় ও আন্তর্জাতিক কারেন্ট অ্যাফেয়ার্সগুলো পয়েন্ট আকারে সাজিয়ে দিন, যা ৫১তম বিসিএসের জন্য প্রাসঙ্গিক।' },
+  { id: 'math',   icon: '🧮', title: 'ম্যাথ সমাধান',          sub: 'গাণিতিক যুক্তির সমস্যা ধাপে ধাপে', prompt: 'নিচের গাণিতিক সমস্যাটি ধাপে ধাপে সমাধান করুন এবং প্রতিটি ধাপ ব্যাখ্যা করুন: ' }
+];
 
-  BCS.subjectById = (id) => BCS.SUBJECTS.find((s) => s.id === id) || BCS.SUBJECTS[0];
-  BCS.subjectByName = (name) => BCS.SUBJECTS.find((s) => s.name === name) || null;
+/* ---------- Seed live sessions ---------- */
+BCS.SEED_LIVE = [
+  { id: 'l1', user: 'রাফিদ হাসান',   avatar: '🦉', subject: 'bangla',  minutes: 92,  label: 'বাংলা সাহিত্য' },
+  { id: 'l2', user: 'নুসরাত জাহান',  avatar: '🌸', subject: 'math',    minutes: 47,  label: 'গাণিতিক যুক্তি' },
+  { id: 'l3', user: 'তানভীর আহমেদ', avatar: '🚀', subject: 'gk-intl', minutes: 128, label: 'আন্তর্জাতিক' },
+  { id: 'l4', user: 'সাদিয়া ইসলাম', avatar: '📚', subject: 'english', minutes: 33,  label: 'ইংরেজি' },
+  { id: 'l5', user: 'মেহেদী হাসান',  avatar: '⚡', subject: 'science', minutes: 76,  label: 'সাধারণ বিজ্ঞান' },
+  { id: 'l6', user: 'ফারহানা আক্তার',avatar: '🎯', subject: 'ict',     minutes: 55,  label: 'আইসিটি' }
+];
 
-  /* ---------- Utilities ---------- */
-  const BN_DIGITS = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+/* ---------- Seed rooms ---------- */
+BCS.SEED_ROOMS = [
+  { id: 'r1', name: 'বাংলা সাহিত্য — রিভিশন', host: 'রাফিদ হাসান', avatar: '🦉', subject: 'bangla', people: 12, active: true,  desc: 'আধুনিক বাংলা সাহিত্যের গুরুত্বপূর্ণ লেখক ও রচনা নিয়ে দ্রুত রিভিশন।' },
+  { id: 'r2', name: 'গাণিতিক যুক্তি — সমস্যা সমাধান', host: 'নুসরাত জাহান', avatar: '🌸', subject: 'math', people: 8, active: true, desc: 'পাটিগণিত, বীজগণিত ও জ্যামিতির চর্চা, লাইভ সমস্যা সমাধান।' },
+  { id: 'r3', name: 'সাধারণ জ্ঞান — বাংলাদেশ', host: 'তানভীর আহমেদ', avatar: '🚀', subject: 'gk-bd', people: 21, active: true, desc: 'স্বাধীনতা যুদ্ধ, সংবিধান ও জাতীয় বিষয়াবলির পূর্ণ রিভিশন।' },
+  { id: 'r4', name: 'ইংরেজি গ্রামার স্প্রিন্ট', host: 'সাদিয়া ইসলাম', avatar: '📚', subject: 'english', people: 5, active: false, desc: 'Parts of speech, tense ও preposition নিয়ে ৪৫ মিনিটের স্প্রিন্ট।' },
+  { id: 'r5', name: 'সাধারণ বিজ্ঞান — নোট শেয়ার', host: 'মেহেদী হাসান', avatar: '⚡', subject: 'science', people: 14, active: true, desc: 'পদার্থ, রসায়ন ও জীববিজ্ঞানের গুরুত্বপূর্ণ তথ্য একসাথে।' },
+  { id: 'r6', name: 'কারেন্ট অ্যাফেয়ার্স ডেইলি', host: 'ফারহানা আক্তার', avatar: '🎯', subject: 'gk-intl', people: 9, active: true, desc: 'প্রতিদিন সকালে ২০ মিনিটের কারেন্ট অ্যাফেয়ার্স আপডেট।' },
+  { id: 'r7', name: 'আইসিটি ও কম্পিউটার', host: 'শাকিল রহমান', avatar: '💻', subject: 'ict', people: 6, active: false, desc: 'কম্পিউটার নেটওয়ার্ক, ডেটাবেজ ও সাইবার সিকিউরিটি।' },
+  { id: 'r8', name: 'ভূগোল ও পরিবেশ', host: 'আয়েশা সিদ্দিকা', avatar: '🌍', subject: 'geography', people: 4, active: false, desc: 'বাংলাদেশ ও বিশ্বের ভূগোল, জলবায়ু পরিবর্তন নিয়ে আলোচনা।' }
+];
 
-  BCS.toBn = function (value) {
-    return String(value).replace(/[0-9]/g, (d) => BN_DIGITS[+d]);
-  };
+/* ---------- Seed posts ---------- */
+BCS.SEED_POSTS = [
+  {
+    id: 'p1', author: 'রাফিদ হাসান', avatar: '🦉', handle: '@rafid',
+    time: Date.now() - 1000 * 60 * 24,
+    text: 'বাংলা সাহিত্যে "মাইকেল মধুসূদন দত্ত" কে আধুনিক বাংলা সাহিত্যের প্রথম সার্থক নাট্যকার বলা হয়।\n\n📌 মনে রাখার টিপস:\n• প্রথম সার্থক বাংলা নাটক: শর্মিষ্ঠা (১৮৫৯)\n• প্রথম আধুনিক বাংলা মহাকাব্য: মেঘনাদবধ কাব্য (১৮৬১)\n• সনেট রচনার পথিকৃৎ',
+    tags: ['বাংলা', 'সাহিত্য', 'প্রিলি'],
+    likes: 42, comments: 7, saved: false, liked: false
+  },
+  {
+    id: 'p2', author: 'নুসরাত জাহান', avatar: '🌸', handle: '@nusrat',
+    time: Date.now() - 1000 * 60 * 88,
+    text: 'আজকের অনুশীলন থেকে একটা ট্রিক শিখলাম:\n\nধরি, একটি সংখ্যা ৩০% বাড়ল, তারপর ৩০% কমল। চূড়ান্ত পরিবর্তন = ০% না!\n\nসূত্র: a + b + (ab/100)\n→ 30 + (-30) + (30×-30)/100 = -9%\n\nঅর্থাৎ ৯% কমে গেল। এই ভুলটাই আমি বার বার করতাম 😅',
+    tags: ['গণিত', 'শর্টকাট'],
+    likes: 28, comments: 5, saved: false, liked: false
+  },
+  {
+    id: 'p3', author: 'তানভীর আহমেদ', avatar: '🚀', handle: '@tanvir',
+    time: Date.now() - 1000 * 60 * 60 * 3,
+    text: 'আজকের কারেন্ট অ্যাফেয়ার্স রিভিশন ✅\n\n১. চলতি বছরের জাতীয় বাজেট ঘোষণা\n২. নতুন শিক্ষা নীতির সাম্প্রতিক আপডেট\n৩. বাংলাদেশের GDP প্রবৃদ্ধির হার\n৪. SDG লক্ষ্যমাত্রায় বাংলাদেশের অবস্থান\n\nকারও নোট থাকলে শেয়ার করুন 🙏',
+    tags: ['কারেন্ট অ্যাফেয়ার্স', 'জরুরি'],
+    likes: 63, comments: 12, saved: false, liked: false
+  },
+  {
+    id: 'p4', author: 'সাদিয়া ইসলাম', avatar: '📚', handle: '@sadia',
+    time: Date.now() - 1000 * 60 * 60 * 8,
+    text: 'ইংরেজি গ্রামারে "Articles" নিয়ে জটিলতা?\n\nA/An → অনির্দিষ্ট (indefinite)\nThe → নির্দিষ্ট (definite)\n\nগুরুত্বপূর্ণ নিয়ম: নদী, সমুদ্র, পর্বতমালা, সংবাদপত্র, পবিত্র গ্রন্থের আগে "The" বসে।\n\nব্রিটিশ কাউন্সিলের একটা ফ্রি রিসোর্স পেয়েছি, চাইলে জানাব।',
+    tags: ['ইংরেজি', 'গ্রামার'],
+    likes: 35, comments: 9, saved: false, liked: false
+  }
+];
 
-  BCS.escapeHtml = function (str) {
-    return String(str).replace(/[&<>"']/g, (c) => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
-  };
+/* ---------- Seed leaderboard ---------- */
+BCS.SEED_LEADERBOARD = [
+  { name: 'তানভীর আহমেদ', avatar: '🚀', hours: 38 },
+  { name: 'রাফিদ হাসান',   avatar: '🦉', hours: 34 },
+  { name: 'নুসরাত জাহান',  avatar: '🌸', hours: 31 },
+  { name: 'সাদিয়া ইসলাম', avatar: '📚', hours: 27 },
+  { name: 'মেহেদী হাসান',  avatar: '⚡', hours: 24 },
+  { name: 'ফারহানা আক্তার',avatar: '🎯', hours: 21 }
+];
 
-  BCS.avatar = function (name, size) {
-    const seed = BCS.hash(String(name || 'anon'));
-    const h1 = seed % 360;
-    const h2 = (h1 + 46) % 360;
-    const cls = size === 'lg' ? 'av-lg' : size === 'md' ? 'av-md' : size === 'sm' ? 'av-sm' : 'av-xs';
-    const bg = `background:linear-gradient(135deg,hsl(${h1} 68% 52%),hsl(${h2} 70% 40%))`;
-    return { cls, bg, initials: BCS.initials(name) };
-  };
+/* ---------- Badges ---------- */
+BCS.BADGES = [
+  { id: 'b1', icon: '🌱', name: 'শুরুর পদক্ষেপ', desc: 'প্রথম স্টাডি সেশন সম্পন্ন', req: s => s.sessions >= 1 },
+  { id: 'b2', icon: '🔥', name: '৩ দিনের স্ট্রিক', desc: 'টানা ৩ দিন পড়াশোনা', req: s => s.streak >= 3 },
+  { id: 'b3', icon: '⚡', name: '১০ ঘণ্টা', desc: 'মোট ১০ ঘণ্টা ফোকাস', req: s => s.hours >= 10 },
+  { id: 'b4', icon: '✍️', name: 'প্রথম পোস্ট', desc: 'নেটওয়ার্কে প্রথম অবদান', req: s => s.posts >= 1 },
+  { id: 'b5', icon: '📚', name: 'নোট শেয়ারার', desc: '৫টি পোস্ট প্রকাশ', req: s => s.posts >= 5 },
+  { id: 'b6', icon: '💎', name: '৫০ ঘণ্টা', desc: 'মোট ৫০ ঘণ্টা ফোকাস', req: s => s.hours >= 50 },
+  { id: 'b7', icon: '🏆', name: 'সাপ্তাহিক চ্যাম্পিয়ন', desc: 'লিডারবোর্ডে শীর্ষ ৩', req: s => s.hours >= 30 },
+  { id: 'b8', icon: '🎓', name: 'মেন্টর মাস্টার', desc: 'এআই মেন্টরের সাথে ২০টি চ্যাট', req: s => s.aiChats >= 20 }
+];
 
-  BCS.avatarHtml = function (name, size, extraClass) {
-    const a = BCS.avatar(name, size);
-    return `<div class="av ${a.cls} ${extraClass || ''}" style="${a.bg}" aria-hidden="true">${BCS.escapeHtml(a.initials)}</div>`;
-  };
-
-  BCS.initials = function (name) {
-    const parts = String(name || '?').trim().split(/\s+/).filter(Boolean);
-    if (!parts.length) return '?';
-    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-  };
-
-  BCS.hash = function (str) {
-    let h = 2166136261;
-    for (let i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      h = Math.imul(h, 16777619);
-    }
-    return Math.abs(h);
-  };
-
-  BCS.uid = function (prefix) {
-    return (prefix || 'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-  };
-
-  BCS.clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-
-  BCS.relTime = function (ts) {
-    const diff = Math.max(0, Date.now() - ts);
-    const s = Math.floor(diff / 1000);
-    if (s < 45) return 'এইমাত্র';
-    const m = Math.floor(s / 60);
-    if (m < 60) return BCS.toBn(m) + ' মিনিট আগে';
-    const h = Math.floor(m / 60);
-    if (h < 24) return BCS.toBn(h) + ' ঘণ্টা আগে';
-    const d = Math.floor(h / 24);
-    if (d < 7) return BCS.toBn(d) + ' দিন আগে';
-    const dt = new Date(ts);
-    return BCS.toBn(dt.getDate()) + '/' + BCS.toBn(dt.getMonth() + 1) + '/' + BCS.toBn(dt.getFullYear());
-  };
-
-  BCS.formatClock = function (totalSeconds) {
-    const h = Math.floor(totalSeconds / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
-    const s = Math.floor(totalSeconds % 60);
-    const pad = (n) => String(n).padStart(2, '0');
-    return BCS.toBn(`${pad(h)}:${pad(m)}:${pad(s)}`);
-  };
-
-  BCS.formatMinutes = function (mins) {
-    if (mins < 60) return BCS.toBn(Math.round(mins)) + ' মিনিট';
-    const h = Math.floor(mins / 60);
-    const m = Math.round(mins % 60);
-    return m ? BCS.toBn(h) + ' ঘণ্টা ' + BCS.toBn(m) + ' মিনিট' : BCS.toBn(h) + ' ঘণ্টা';
-  };
-
-  BCS.todayKey = function (d) {
-    const dt = d ? new Date(d) : new Date();
-    return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
-  };
-
-  BCS.yesterdayKey = function () {
-    const d = new Date();
-    d.setDate(d.getDate() - 1);
-    return BCS.todayKey(d);
-  };
-
-  BCS.debounce = function (fn, wait) {
-    let t;
-    return function (...args) {
-      clearTimeout(t);
-      t = setTimeout(() => fn.apply(this, args), wait);
-    };
-  };
-
-  BCS.richText = function (raw) {
-    return BCS.escapeHtml(raw)
-      .replace(/(^|\s)(#[\w\u0980-\u09FF_]+)/g, '$1<span class="hash" data-tag="$2">$2</span>')
-      .replace(/(^|\s)(@[A-Za-z0-9_]+)/g, '$1<span class="men">$2</span>');
-  };
-})();
+/* ---------- Quick tags for composer ---------- */
+BCS.QUICK_TAGS = ['বাংলা', 'ইংরেজি', 'গণিত', 'সাধারণ জ্ঞান', 'বিজ্ঞান', 'আইসিটি', 'প্রিলি', 'লিখিত'];

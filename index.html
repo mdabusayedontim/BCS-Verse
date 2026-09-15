@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#070a12" />
-<meta name="description" content="BCS Verse — ৫১তম বিসিএস প্রস্তুতির লাইভ সোশ্যাল স্টাডি নেটওয়ার্ক। লাইভ স্টাডি সেশন, এআই মেন্টর, নোট শেয়ারিং।" />
-<title>BCS Verse — বিসিএস লাইভ স্টাডি নেটওয়ার্ক</title>
+<meta name="description" content="BCS Verse — ৫১তম বিসিএস প্রস্তুতির লাইভ সোশ্যাল স্টাডি নেটওয়ার্ক।" />
+<title>হোম ফিড — BCS Verse</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,69 +13,64 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 </head>
-<body>
+<body data-page="home">
 
-<!-- ambient background -->
 <div class="aurora" aria-hidden="true">
-  <span class="blob b1"></span>
-  <span class="blob b2"></span>
-  <span class="blob b3"></span>
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
 </div>
 <div class="grain" aria-hidden="true"></div>
 
-<!-- ================= TOPBAR (mobile) ================= -->
-<header class="topbar">
-  <div class="brand">
-    <span class="brand-mark">📚</span>
-    <span class="brand-text"><strong>BCS <em>Verse</em></strong></span>
-  </div>
-  <div class="topbar-actions">
-    <button class="icon-btn" data-action="toggle-theme" title="থিম পরিবর্তন" aria-label="থিম পরিবর্তন">
-      <svg viewBox="0 0 24 24" class="ic"><path d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10-10 1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
-    </button>
-    <button class="icon-btn" data-action="open-settings" title="সেটিংস" aria-label="সেটিংস">
-      <svg viewBox="0 0 24 24" class="ic"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 2.6 7a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 7 2.6h.1A1.7 1.7 0 0 0 8.3 1V1a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 15 2.6a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9h.1a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" transform="translate(1.5 1.5) scale(0.88)"/></svg>
-    </button>
+<!-- ============ APP HEADER (shared, cross-page nav) ============ -->
+<header class="appbar" id="appbar">
+  <div class="appbar-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">📚</span>
+      <span class="brand-text"><strong>BCS <em>Verse</em></strong><small>৫১তম বিসিএস নেটওয়ার্ক</small></span>
+    </a>
+
+    <nav class="mainnav" id="mainnav">
+      <a class="mainnav-link is-active" href="index.html">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/></svg><span>হোম</span>
+      </a>
+      <a class="mainnav-link" href="live.html">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4"/></svg><span>লাইভ স্টাডি</span>
+        <span class="nav-dot" data-live-dot></span>
+      </a>
+      <a class="mainnav-link" href="ai.html">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg><span>এআই মেন্টর</span>
+      </a>
+      <a class="mainnav-link" href="profile.html">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>প্রোফাইল</span>
+      </a>
+    </nav>
+
+    <div class="appbar-actions">
+      <div class="search-box">
+        <svg class="ic sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="globalSearch" class="search-input" type="search" placeholder="খুঁজুন…" />
+      </div>
+      <a class="icon-btn" href="live.html" title="লাইভ সেশন" aria-label="লাইভ সেশন">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4"/></svg>
+      </a>
+      <button class="icon-btn" data-action="toggle-theme" title="থিম" aria-label="থিম">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10-10 1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+      </button>
+      <button class="icon-btn" data-action="open-settings" title="সেটিংস" aria-label="সেটিংস">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2.5 12h2M19.5 12h2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5"/></svg>
+      </button>
+      <a class="avatar-btn" href="profile.html" id="headerAvatar" title="প্রোফাইল">🎯</a>
+      <button class="burger" id="burger" aria-label="মেনু">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
-<!-- ================= SHELL ================= -->
-<div class="shell">
+<!-- ============ LAYOUT ============ -->
+<div class="layout">
 
-  <!-- ---------- SIDEBAR ---------- -->
-  <aside class="sidebar">
-    <div class="brand brand-lg">
-      <span class="brand-mark">📚</span>
-      <span class="brand-text">
-        <strong>BCS <em>Verse</em></strong>
-        <small>৫১তম বিসিএস প্রস্তুতি নেটওয়ার্ক</small>
-      </span>
-    </div>
-
-    <nav class="nav">
-      <button class="nav-item is-active" data-action="go-home">
-        <svg class="ic" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/><path d="M9.5 21v-6h5v6"/></svg>
-        <span>হোম ফিড</span>
-      </button>
-      <button class="nav-item" data-action="open-live">
-        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4"/></svg>
-        <span>লাইভ স্টাডি</span>
-        <span class="nav-dot" id="navLiveDot"></span>
-      </button>
-      <button class="nav-item" data-action="open-ai">
-        <svg class="ic" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg>
-        <span>এআই মেন্টর</span>
-      </button>
-      <button class="nav-item" data-action="open-profile">
-        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
-        <span>প্রোফাইল</span>
-      </button>
-      <button class="nav-item" data-action="open-settings">
-        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2.5 12h2M19.5 12h2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5"/></svg>
-        <span>সেটিংস</span>
-      </button>
-    </nav>
-
+  <!-- LEFT RAIL -->
+  <aside class="leftrail">
     <div class="side-card">
       <div class="side-avatar" id="sideAvatar">🎯</div>
       <div class="side-name" id="sideName">অতিথি পরীক্ষার্থী</div>
@@ -83,22 +78,44 @@
       <button class="btn btn-grad btn-block" id="sideAuthBtn" data-action="auth">অ্যাকাউন্ট খুলুন</button>
     </div>
 
-    <div class="side-foot">© <span id="year"></span> BCS Verse</div>
+    <nav class="sidenav">
+      <a class="sidenav-item is-active" href="index.html">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/></svg><span>হোম ফিড</span>
+      </a>
+      <a class="sidenav-item" href="live.html">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4"/></svg><span>লাইভ স্টাডি</span>
+      </a>
+      <a class="sidenav-item" href="ai.html">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg><span>এআই মেন্টর</span>
+      </a>
+      <a class="sidenav-item" href="profile.html">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>প্রোফাইল</span>
+      </a>
+      <button class="sidenav-item" data-action="open-settings">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2.5 12h2M19.5 12h2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5"/></svg><span>সেটিংস</span>
+      </button>
+    </nav>
+
+    <div class="side-foot">
+      <a href="https://github.com" target="_blank" rel="noopener">ডকুমেন্টেশন</a>
+      <span>·</span>
+      <span>v3.0</span>
+    </div>
   </aside>
 
-  <!-- ---------- MAIN ---------- -->
-  <main class="main">
+  <!-- MAIN COLUMN -->
+  <main class="col-main">
 
-    <!-- LIVE STRIP -->
+    <!-- Live strip -->
     <section class="card live-strip">
       <div class="row between">
-        <div class="live-pill"><span class="pulse-dot"></span> লাইভ অ্যাক্টিভিটি</div>
-        <div class="live-count" id="liveCount">— জন এখন পড়ছেন</div>
+        <a class="live-pill" href="live.html"><span class="pulse-dot"></span> লাইভ অ্যাক্টিভিটি</a>
+        <span class="live-count" id="liveCount">— জন এখন পড়ছেন</span>
       </div>
       <div class="carousel" id="liveStrip"></div>
     </section>
 
-    <!-- FOCUS TIMER -->
+    <!-- Focus timer -->
     <section class="card focus" id="focusCard">
       <div class="focus-grid">
         <div class="ring-wrap">
@@ -126,10 +143,10 @@
           </div>
           <p class="muted sm">আপনি এখন কী পড়ছেন তা নেটওয়ার্কে দেখানো হবে — অন্যরা আপনাকে দেখে অনুপ্রাণিত হবে।</p>
 
-          <label class="lbl">বিষয় নির্বাচন</label>
+          <label class="lbl" for="focusSubject">বিষয় নির্বাচন</label>
           <select id="focusSubject" class="input"></select>
 
-          <div class="row gap wrap" style="margin-top:12px">
+          <div class="row gap wrap mt-12">
             <button class="btn btn-live" id="focusBtn" data-action="focus-toggle">▶ শুরু করুন</button>
             <button class="btn btn-ghost" id="endBtn" data-action="focus-end" disabled>■ শেষ করুন</button>
             <span class="muted sm" id="focusMeta"></span>
@@ -138,11 +155,11 @@
       </div>
     </section>
 
-    <!-- COMPOSER -->
+    <!-- Composer -->
     <section class="card composer">
       <div class="row between">
         <h2 class="sec-title">✍️ নোট বা প্রশ্ন শেয়ার করুন</h2>
-        <button class="btn btn-ghost sm" data-action="open-ai">✨ এআই দিয়ে লিখুন</button>
+        <a class="btn btn-ghost sm" href="ai.html">✨ এআই দিয়ে লিখুন</a>
       </div>
       <textarea id="postText" class="input textarea" rows="3" placeholder="আজ কী পড়লেন? কোনো প্রশ্ন বা গুরুত্বপূর্ণ পয়েন্ট শেয়ার করুন…"></textarea>
       <div class="row between wrap gap">
@@ -154,7 +171,7 @@
       </div>
     </section>
 
-    <!-- FEED -->
+    <!-- Feed -->
     <section class="feed-head">
       <div class="tabs" id="feedTabs">
         <button class="tab is-active" data-filter="all">সব</button>
@@ -164,27 +181,24 @@
       </div>
       <div class="search-wrap">
         <svg class="ic sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="feedSearch" class="input search" type="search" placeholder="খুঁজুন…" />
+        <input id="feedSearch" class="input search" type="search" placeholder="ফিডে খুঁজুন…" />
       </div>
     </section>
 
     <div id="feed" class="feed"></div>
   </main>
 
-  <!-- ---------- RIGHT RAIL ---------- -->
-  <aside class="rail">
-
+  <!-- RIGHT RAIL -->
+  <aside class="rightrail">
     <section class="card widget">
       <div class="row between">
-        <h3 class="w-title">⚡ Gemini এআই মেন্টর</h3>
+        <h3 class="w-title">⚡ এআই মেন্টর</h3>
         <span class="chip chip-green" id="aiStatusChip">যাচাই হচ্ছে…</span>
       </div>
       <p class="muted sm">৫১তম বিসিএস প্রিলি ও লিখিতের যেকোনো প্রশ্নের তাৎক্ষণিক উত্তর, ব্যাখ্যা ও মডেল টেস্ট।</p>
-      <div class="chip chip-indigo" style="margin-bottom:10px;font-size:.7rem">
-        <span id="modelBadge">gemini-3.6-flash</span> • Interactions API
-      </div>
-      <button class="btn btn-grad btn-block" data-action="open-ai">💬 এআই মেন্টরের সাথে কথা বলুন</button>
-      <button class="btn btn-ghost btn-block" style="margin-top:8px" data-action="ai-mcq">🎯 আজকের ৫টি মডেল MCQ</button>
+      <div class="chip chip-indigo mb-10"><span id="modelBadge">gemini-3.6-flash</span> • Interactions API</div>
+      <a class="btn btn-grad btn-block" href="ai.html">💬 এআই মেন্টরের সাথে কথা বলুন</a>
+      <a class="btn btn-ghost btn-block mt-8" href="ai.html?prompt=mcq">🎯 আজকের ৫টি মডেল MCQ</a>
     </section>
 
     <section class="card widget">
@@ -206,30 +220,28 @@
       <h3 class="w-title">📚 বিষয়ভিত্তিক ডিসকাশন</h3>
       <div id="topicList" class="topics"></div>
     </section>
-
   </aside>
 </div>
 
-<!-- ================= MOBILE TABBAR ================= -->
+<!-- ============ MOBILE TABBAR ============ -->
 <nav class="tabbar">
-  <button class="tab-item is-active" data-action="go-home">
+  <a class="tab-item is-active" href="index.html">
     <svg class="ic" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/></svg><span>হোম</span>
-  </button>
-  <button class="tab-item" data-action="open-live">
+  </a>
+  <a class="tab-item" href="live.html">
     <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M6.3 6.3a8 8 0 0 0 0 11.4M17.7 6.3a8 8 0 0 1 0 11.4"/></svg><span>লাইভ</span>
-  </button>
-  <button class="tab-item tab-fab" data-action="post">
+  </a>
+  <button class="tab-item tab-fab" data-action="post" aria-label="পোস্ট">
     <svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
   </button>
-  <button class="tab-item" data-action="open-ai">
+  <a class="tab-item" href="ai.html">
     <svg class="ic" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg><span>এআই</span>
-  </button>
-  <button class="tab-item" data-action="open-profile">
+  </a>
+  <a class="tab-item" href="profile.html">
     <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>প্রোফাইল</span>
-  </button>
+  </a>
 </nav>
 
-<!-- ================= MODAL + TOAST ROOTS ================= -->
 <div class="modal-root" id="modalRoot" aria-hidden="true"></div>
 <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
 
